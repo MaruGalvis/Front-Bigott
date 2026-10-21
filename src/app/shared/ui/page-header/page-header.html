@@ -1,0 +1,18 @@
+<div class="flex flex-wrap items-start justify-between gap-3 mb-7">
+  <div class="flex items-center gap-4">
+    <span class="hidden sm:flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#0b1f45] text-white shadow-[0_2px_8px_rgba(11,31,69,0.35)]">
+      <i class="pi text-xl" [class]="icon()"></i>
+    </span>
+    <div>
+      <h1 class="font-['Poppins'] text-[28px] sm:text-[32px] leading-tight font-bold text-neutral-900">{{ title() }}</h1>
+    </div>
+  </div>
+
+  <p class="text-sm text-neutral-400 pt-2">
+    Bigott
+    @for (crumb of crumbs(); track crumb) {
+      <i class="pi pi-angle-right text-[10px] mx-1.5"></i>
+      <span class="text-neutral-600 font-medium">{{ crumb }}</span>
+    }
+  </p>
+</div>

@@ -1,0 +1,66 @@
+@if (grid(); as g) {
+  <div class="overflow-x-auto rounded-xl border border-neutral-200">
+    <table class="w-full text-sm min-w-130">
+      <thead>
+        <tr class="bg-[#0b1f45] text-white text-xs uppercase tracking-wide">
+          <th scope="col" class="sticky left-0 z-10 bg-[#0b1f45] text-center font-semibold px-4 py-2.5 whitespace-nowrap">SKUs</th>
+          @for (region of g.regions; track region) {
+            <th scope="col" class="text-center font-semibold px-4 py-2.5">{{ region }}</th>
+          }
+          <th scope="col" class="text-center font-semibold px-4 py-2.5">SOP</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of g.rows; track row.brand) {
+          <tr class="border-t border-neutral-200 bg-[#eef3fc] font-semibold text-neutral-900">
+            <td class="sticky left-0 z-10 bg-[#eef3fc] px-4 py-2 whitespace-nowrap">{{ row.brand }}</td>
+            @for (value of row.values; track $index) {
+              <td class="text-right px-4 py-2">{{ value ? (value | numberEs: 0) : '-' }}</td>
+            }
+            <td class="text-right px-4 py-2 bg-[#dde9fb] text-[#0b1f45]">{{ row.sop ? (row.sop | numberEs: 0) : '-' }}</td>
+          </tr>
+          @for (child of row.children; track child.brand) {
+            @if (child.brand !== row.brand) {
+              <tr class="border-t border-neutral-100 text-neutral-600">
+                <td class="sticky left-0 z-10 bg-white px-4 py-2 pl-8 whitespace-nowrap">{{ child.brand }}</td>
+                @for (value of child.values; track $index) {
+                  <td class="text-right px-4 py-2">{{ value ? (value | numberEs: 0) : '-' }}</td>
+                }
+                <td class="text-right px-4 py-2 bg-[#eef3fc] text-[#0b1f45] font-semibold">{{ child.sop ? (child.sop | numberEs: 0) : '-' }}</td>
+              </tr>
+            }
+          }
+        } @empty {
+          <tr>
+            <td [attr.colspan]="g.regions.length + 2" class="p-0">
+              <app-empty-state
+                icon="pi-inbox"
+                title="Aún no hay datos cargados"
+                description="Sube un archivo de Excel arriba para ver los objetivos del periodo."
+              />
+            </td>
+          </tr>
+        }
+      </tbody>
+      @if (g.rows.length) {
+        <tfoot>
+          <tr class="border-t-2 border-[#1170b8]/30 bg-[#eef3fc] font-bold text-neutral-900">
+            <td class="sticky left-0 z-10 bg-[#eef3fc] px-4 py-2.5">Total</td>
+            @for (value of g.totalValues; track $index) {
+              <td class="text-right px-4 py-2.5">{{ value | numberEs: 0 }}</td>
+            }
+            <td class="text-right px-4 py-2.5 bg-[#dde9fb]">{{ g.totalSop | numberEs: 0 }}</td>
+          </tr>
+        </tfoot>
+      }
+    </table>
+  </div>
+} @else {
+  <div class="rounded-xl border border-dashed border-neutral-300">
+    <app-empty-state
+      icon="pi-upload"
+      title="Aún no hay objetivos cargados"
+      description="Sube un archivo de Excel arriba para ver los objetivos del periodo."
+    />
+  </div>
+}

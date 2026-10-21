@@ -1,0 +1,301 @@
+> Building...
+√ Building...
+Initial chunk files | Names                      | Raw size
+styles.css          | styles                     | 70.88 kB | 
+main.js             | main                       |  4.27 kB | 
+chunk-5KSZCXIC.js   | -                          |  2.18 kB | 
+chunk-XMAY4NHO.js   | -                          |  1.12 kB | 
+
+                    | Initial total              | 78.45 kB
+
+Lazy chunk files    | Names                      | Raw size
+chunk-QPPJKUWA.js   | catalog                    | 87.17 kB | 
+chunk-QRXSKUIR.js   | weekly-sales-distribution  | 65.51 kB | 
+chunk-GUKR3VCF.js   | monthly-sales-distribution | 45.84 kB | 
+chunk-4ZYQA37I.js   | auth                       | 41.59 kB | 
+chunk-PHFHEHYC.js   | sales-target               | 40.13 kB | 
+chunk-Q7BZFJVA.js   | app-layout                 | 34.54 kB | 
+chunk-5TFETNCW.js   | ml-forecast                | 21.48 kB | 
+chunk-EEA37S2Q.js   | -                          | 13.90 kB | 
+chunk-KJ4AXO6M.js   | -                          | 11.39 kB | 
+chunk-7GI6ZRWX.js   | -                          |  9.16 kB | 
+chunk-EIWUGEM3.js   | -                          |  7.64 kB | 
+chunk-FOABWFD5.js   | -                          |  5.32 kB | 
+chunk-2ZCGO554.js   | -                          |  4.88 kB | 
+chunk-ZLGCLQGO.js   | -                          |  2.21 kB | 
+chunk-EHRRSDOJ.js   | -                          |  1.54 kB | 
+...and 2 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [5.366 seconds] - 2026-08-25T23:42:01.617Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+7:42:01 p. m. [vite] (client) Re-optimizing dependencies because vite config has changed
+  ➜  Local:   http://localhost:4200/
+7:42:03 p. m. [vite] (client) [optimizer] bundling dependencies...
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-AL4IDFRH.js   | ml-forecast | 21.47 kB | 
+
+Application bundle generation complete. [2.729 seconds] - 2026-08-25T23:59:27.678Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-WM7YBSJJ.js   | ml-forecast | 21.52 kB | 
+
+Application bundle generation complete. [0.922 seconds] - 2026-08-25T23:59:38.153Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-DH264UZN.js   | ml-forecast | 21.06 kB | 
+
+Application bundle generation complete. [0.536 seconds] - 2026-08-26T00:23:50.746Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-S3KO6KPZ.js   | ml-forecast | 20.94 kB | 
+
+Application bundle generation complete. [0.684 seconds] - 2026-08-26T00:32:31.952Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-O4WDPYB5.js   | ml-forecast | 20.94 kB | 
+
+Application bundle generation complete. [0.821 seconds] - 2026-08-26T00:34:51.774Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-JSEQ52ZR.js   | ml-forecast | 20.91 kB | 
+
+Application bundle generation complete. [0.610 seconds] - 2026-08-26T00:35:00.467Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-SN7THTEE.js   | ml-forecast | 20.89 kB | 
+
+Application bundle generation complete. [1.011 seconds] - 2026-08-26T00:35:11.925Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Application bundle generation failed. [0.602 seconds] - 2026-08-26T00:36:53.303Z
+
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names                      | Raw size
+styles.css          | styles                     | 70.88 kB | 
+main.js             | main                       |  4.27 kB | 
+chunk-5KSZCXIC.js   | -                          |  2.18 kB | 
+chunk-XMAY4NHO.js   | -                          |  1.12 kB | 
+
+                    | Initial total              | 78.45 kB
+
+Lazy chunk files    | Names                      | Raw size
+chunk-QPPJKUWA.js   | catalog                    | 87.17 kB | 
+chunk-QRXSKUIR.js   | weekly-sales-distribution  | 65.51 kB | 
+chunk-GUKR3VCF.js   | monthly-sales-distribution | 45.84 kB | 
+chunk-4ZYQA37I.js   | auth                       | 41.59 kB | 
+chunk-PHFHEHYC.js   | sales-target               | 40.13 kB | 
+chunk-Q7BZFJVA.js   | app-layout                 | 34.54 kB | 
+chunk-OMQX6UP2.js   | ml-forecast                | 20.93 kB | 
+chunk-EEA37S2Q.js   | -                          | 13.90 kB | 
+chunk-KJ4AXO6M.js   | -                          | 11.39 kB | 
+chunk-7GI6ZRWX.js   | -                          |  9.16 kB | 
+chunk-EIWUGEM3.js   | -                          |  7.64 kB | 
+chunk-FOABWFD5.js   | -                          |  5.32 kB | 
+chunk-2ZCGO554.js   | -                          |  4.88 kB | 
+chunk-ZLGCLQGO.js   | -                          |  2.21 kB | 
+chunk-EHRRSDOJ.js   | -                          |  1.54 kB | 
+...and 2 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [0.583 seconds] - 2026-08-26T00:37:02.451Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-WBHSGGMW.js   | ml-forecast | 20.95 kB | 
+
+Application bundle generation complete. [0.758 seconds] - 2026-08-26T00:37:45.842Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-MVVAK32H.js   | ml-forecast | 21.02 kB | 
+
+Application bundle generation complete. [0.575 seconds] - 2026-08-26T00:39:13.610Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-HAVMOK56.js   | ml-forecast | 21.02 kB | 
+
+Application bundle generation complete. [0.840 seconds] - 2026-08-26T00:39:20.671Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-2HYORSNC.js   | ml-forecast | 21.00 kB | 
+
+Application bundle generation complete. [0.457 seconds] - 2026-08-26T00:40:28.253Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names      | Raw size
+main.js             | main       |  4.27 kB | 
+
+Lazy chunk files    | Names      | Raw size
+chunk-FRJUXMMX.js   | app-layout | 34.55 kB | 
+
+Application bundle generation complete. [0.616 seconds] - 2026-08-26T00:47:52.032Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-LPH6SPB7.js   | ml-forecast | 20.93 kB | 
+
+Application bundle generation complete. [0.677 seconds] - 2026-08-26T00:49:50.332Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-LT5RC2VC.js   | ml-forecast | 20.84 kB | 
+
+Application bundle generation complete. [0.629 seconds] - 2026-08-26T00:52:30.261Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names      | Raw size
+main.js             | main       |  4.27 kB | 
+
+Lazy chunk files    | Names      | Raw size
+chunk-I4D3YUEA.js   | app-layout | 34.99 kB | 
+
+Application bundle generation complete. [0.546 seconds] - 2026-08-26T00:53:57.062Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-BSCLVJVE.js   | ml-forecast | 20.80 kB | 
+
+Application bundle generation complete. [1.596 seconds] - 2026-08-26T00:55:06.546Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-B2XXLNEW.js   | ml-forecast | 20.83 kB | 
+
+Application bundle generation complete. [0.635 seconds] - 2026-08-26T00:59:39.069Z
+
+Component update sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-ENT53OOH.js   | ml-forecast | 21.91 kB | 
+
+Application bundle generation complete. [0.643 seconds] - 2026-08-26T01:07:22.608Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names       | Raw size
+main.js             | main        |  4.27 kB | 
+
+Lazy chunk files    | Names       | Raw size
+chunk-B2XXLNEW.js   | ml-forecast | 20.83 kB | 
+
+Application bundle generation complete. [0.568 seconds] - 2026-08-26T01:08:43.473Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names        | Raw size
+main.js             | main         |  4.27 kB | 
+
+Lazy chunk files    | Names        | Raw size
+chunk-XJCVNPCW.js   | sales-target | 40.38 kB | 
+
+Application bundle generation complete. [0.607 seconds] - 2026-08-26T01:20:04.818Z
+
+Page reload sent to client(s).
+> Changes detected. Rebuilding...
+√ Changes detected. Rebuilding...
+Initial chunk files | Names        | Raw size
+main.js             | main         |  4.27 kB | 
+
+Lazy chunk files    | Names        | Raw size
+chunk-X6M7EZDK.js   | sales-target | 40.63 kB | 
+
+Application bundle generation complete. [0.772 seconds] - 2026-08-26T01:20:21.377Z
+
+Page reload sent to client(s).

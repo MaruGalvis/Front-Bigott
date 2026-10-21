@@ -1,0 +1,71 @@
+<div class="rounded-xl border border-neutral-200 overflow-hidden bg-[#eef3fc]">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="bg-[#0b1f45]">
+        <th scope="col" class="text-center text-[11px] font-semibold uppercase tracking-wide text-white px-4 py-2.5 w-40">Calendario</th>
+        @for (week of weeks(); track $index) {
+          <th scope="col" class="text-center text-[11px] font-semibold uppercase tracking-wide text-white py-2.5">{{ week.label }}</th>
+        }
+        <th scope="col" class="text-center text-[11px] font-semibold uppercase tracking-wide text-white py-2.5 w-24">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-neutral-100">
+        <td class="px-4 py-3.5 text-center font-medium text-neutral-600">Peso semanal</td>
+        @for (week of weeks(); track $index; let i = $index) {
+          <td class="py-3.5 px-2">
+            <div class="flex flex-col items-center gap-1.5">
+              <span class="inline-flex items-baseline gap-0.5">
+                <input
+                  type="number"
+                  [disabled]="readonlyMode()"
+                  class="w-7 text-center font-bold text-[#0b1f45] bg-transparent focus:outline-none disabled:text-neutral-500 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  [value]="displayWeights()[i]"
+                  (input)="onWeightTyping(i, $any($event.target).value)"
+                  (change)="onWeightInput(i, $any($event.target).value)"
+                />
+                <span class="text-neutral-400 text-[11px]">%</span>
+              </span>
+              <span class="block h-1 w-10 rounded-full bg-neutral-100 overflow-hidden">
+                <span class="block h-full rounded-full bg-[#1170b8]" [style.width.%]="displayWeights()[i]"></span>
+              </span>
+            </div>
+          </td>
+        }
+        <td class="text-center py-3.5">
+          <div class="flex flex-col items-center gap-1">
+            <span
+              class="inline-flex rounded-full px-2.5 py-1 text-xs font-bold transition-colors"
+              [class.bg-[#eaf7ec]]="totalWeight() === 100"
+              [class.text-[#2e8b3d]]="totalWeight() === 100"
+              [class.bg-[#fdecf2]]="totalWeight() !== 100"
+              [class.text-[#e6007e]]="totalWeight() !== 100"
+            >
+              {{ totalWeight() }}%
+            </span>
+            @if (totalWeight() !== 100) {
+              <span class="text-[10px] font-medium text-[#e6007e]/80">
+                {{ totalWeight() < 100 ? ('Faltan ' + (100 - totalWeight()) + '%') : ('Sobran ' + (totalWeight() - 100) + '%') }}
+              </span>
+            }
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="px-4 py-3.5 text-center font-medium text-neutral-600">Días hábiles</td>
+        @for (week of weeks(); track $index; let i = $index) {
+          <td class="text-center py-3.5">
+            <input
+              type="number"
+              [disabled]="readonlyMode()"
+              class="w-8 text-center font-semibold text-neutral-700 bg-transparent focus:outline-none disabled:text-neutral-400 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              [value]="week.days"
+              (change)="onDaysInput(i, $any($event.target).value)"
+            />
+          </td>
+        }
+        <td class="text-center py-3.5 font-bold text-neutral-700">{{ totalDays() }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

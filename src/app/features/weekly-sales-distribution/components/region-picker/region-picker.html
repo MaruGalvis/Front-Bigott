@@ -1,0 +1,30 @@
+<div class="relative inline-block">
+  <button
+    type="button"
+    (click)="toggle()"
+    class="flex items-center gap-2.5 rounded-lg border border-[#1170b8]/20 bg-[#eef3fc] pl-3.5 pr-3 py-2 text-sm font-medium text-neutral-800 cursor-pointer"
+  >
+    <i class="pi text-[#1170b8] text-sm" [class]="icon()"></i>
+    {{ selected() || placeholder() }}
+    <i class="pi pi-chevron-down text-[10px] text-[#1170b8] transition-transform" [class.rotate-180]="open()"></i>
+  </button>
+
+  @if (open()) {
+    <div class="absolute left-0 top-full mt-2 w-48 rounded-xl border border-neutral-200 bg-white shadow-lg py-1.5 z-50 max-h-72 overflow-y-auto">
+      @for (region of regions(); track region) {
+        <button
+          type="button"
+          (click)="select(region)"
+          class="flex w-full items-center justify-between px-3.5 py-2 text-sm text-left transition-colors"
+          [class.bg-[#0b1f45]]="selected() === region"
+          [class.text-white]="selected() === region"
+          [class.font-semibold]="selected() === region"
+          [class.text-neutral-700]="selected() !== region"
+          [class.hover:bg-[#eef3fc]]="selected() !== region"
+        >
+          {{ region }}
+        </button>
+      }
+    </div>
+  }
+</div>

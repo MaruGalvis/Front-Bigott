@@ -1,0 +1,140 @@
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] items-start">
+  <div class="min-w-0 rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-visible">
+    <div class="bg-[#0b1f45] rounded-t-2xl px-6 py-6 flex items-center gap-3.5">
+      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+        <i class="pi pi-building text-white text-lg"></i>
+      </span>
+      <div>
+        <h2 class="text-white font-semibold text-[15px]">Nueva Sucursal</h2>
+        <p class="text-white/70 text-xs mt-0.5">Asocia sucursales a una nueva región</p>
+      </div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-6 flex flex-col gap-5">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-neutral-700">Nombre</label>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Ej. Trujillo"
+          class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45] focus:border-[#0b1f45] transition-colors"
+        />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <small class="text-red-600">El nombre es obligatorio</small>
+        }
+      </div>
+
+      <div class="relative flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-neutral-700">Región</label>
+        <button
+          type="button"
+          (click)="regionMenuOpen.set(!regionMenuOpen())"
+          class="w-full flex items-center justify-between rounded-md border border-neutral-300 px-3.5 py-2.5 text-[15px] text-left transition-colors focus:outline-none focus:ring-2 focus:ring-[#0b1f45] focus:border-[#0b1f45] cursor-pointer"
+          [class.text-neutral-400]="!form.controls.regionId.value"
+          [class.text-neutral-900]="form.controls.regionId.value"
+        >
+          {{ selectedRegionName() }}
+          <i class="pi pi-chevron-down text-[11px] text-[#1170b8] transition-transform" [class.rotate-180]="regionMenuOpen()"></i>
+        </button>
+        @if (regionMenuOpen()) {
+          <div class="absolute left-0 top-full mt-1.5 w-full max-h-72 overflow-y-auto rounded-xl border border-neutral-200 bg-white shadow-lg py-1.5 z-20">
+            @if (regions().length === 0) {
+              <p class="px-3.5 py-2.5 text-sm text-neutral-400">No hay regiones creadas todavía</p>
+            }
+            @for (r of regions(); track r.regionId) {
+              <button
+                type="button"
+                (click)="selectRegion(r)"
+                class="flex w-full items-center px-3.5 py-2.5 text-sm text-left transition-colors cursor-pointer"
+                [class.bg-[#0b1f45]]="form.controls.regionId.value === r.regionId"
+                [class.text-white]="form.controls.regionId.value === r.regionId"
+                [class.font-semibold]="form.controls.regionId.value === r.regionId"
+                [class.text-neutral-700]="form.controls.regionId.value !== r.regionId"
+                [class.hover:bg-[#eef3fc]]="form.controls.regionId.value !== r.regionId"
+              >
+                {{ r.name }}
+              </button>
+            }
+          </div>
+        }
+        @if (form.controls.regionId.invalid && form.controls.regionId.touched) {
+          <small class="text-red-600">Selecciona una región</small>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">{{ error() }}</div>
+      }
+
+      @if (success()) {
+        <div class="flex items-center gap-2.5 rounded-xl border border-[#2e8b3d]/20 bg-[#eaf7ec] px-4 py-3">
+          <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2e8b3d]/15">
+            <i class="pi pi-check text-[12px] text-[#2e8b3d]"></i>
+          </span>
+          <p class="text-sm font-medium text-[#1f5c2a]">¡Sucursal creada correctamente!</p>
+        </div>
+      }
+
+      <button
+        type="submit"
+        [disabled]="saving()"
+        class="w-full flex items-center justify-center gap-2 rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 text-white font-medium py-3 text-[15px] transition-colors cursor-pointer"
+      >
+        @if (!saving()) {
+          <i class="pi pi-plus text-[13px]"></i>
+        }
+        {{ saving() ? 'Creando...' : 'Crear Sucursal' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="min-w-0 rounded-2xl border border-neutral-200 bg-white shadow-sm p-6 lg:p-7 flex flex-col gap-5 min-h-140">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500">Sucursales</h2>
+        <span class="rounded-full bg-[#eef3fc] text-[#1170b8] text-xs font-semibold px-2.5 py-0.5">{{ items().length }}</span>
+      </div>
+      <div class="relative w-full sm:w-56">
+        <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-sm"></i>
+        <input
+          type="text"
+          [ngModel]="search()"
+          (ngModelChange)="search.set($event)"
+          placeholder="Buscar sucursal..."
+          class="w-full rounded-md border border-neutral-300 pl-9 pr-3.5 py-2 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45] focus:border-[#0b1f45] transition-colors"
+        />
+      </div>
+    </div>
+
+    @if (loadingList()) {
+      <div class="flex flex-col gap-2.5">
+        @for (i of [1, 2, 3, 4, 5]; track i) {
+          <app-skeleton class="h-15 w-full rounded-xl" />
+        }
+      </div>
+    } @else if (filteredItems().length === 0) {
+      <app-empty-state
+        icon="pi-building"
+        [title]="items().length === 0 ? 'Aún no hay sucursales registradas' : 'No se encontraron sucursales con ese nombre'"
+      />
+    } @else {
+      <div class="flex flex-col gap-2 overflow-y-auto max-h-140 -mx-2 px-2">
+        @for (b of filteredItems(); track b.branchId) {
+          <div class="flex items-center gap-3.5 rounded-xl border border-neutral-100 bg-neutral-50/60 hover:bg-[#eef3fc] hover:border-[#1170b8]/20 px-4 py-3.5 transition-colors">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#0b1f45]">
+              <i class="pi pi-building text-white text-sm"></i>
+            </span>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-semibold text-neutral-900 truncate">{{ b.name }}</p>
+              <p class="text-xs text-neutral-500 truncate flex items-center gap-1">
+                <i class="pi pi-map-marker text-[10px]"></i>
+                {{ regionName(b) }}
+              </p>
+            </div>
+            <span class="shrink-0 h-2 w-2 rounded-full" [class.bg-[#4caf50]]="b.isActive" [class.bg-neutral-300]="!b.isActive"></span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<app-page-header
+  title="Distribución Semanal"
+  icon="pi-table"
+  [crumbs]="['Distribución Semanal']"
+/>
+
+<div class="mb-6 flex flex-wrap items-center gap-4 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+  <app-region-picker
+    [regions]="regionNames()"
+    [selected]="selectedRegionName()"
+    placeholder="Selecciona una región"
+    icon="pi-map-marker"
+    (selectedChange)="onRegionSelected($event)"
+  />
+
+  <div class="h-6 w-px bg-neutral-200"></div>
+
+  <div class="flex items-center gap-2.5 rounded-lg border border-[#1170b8]/20 bg-[#eef3fc] pl-3.5 pr-2.5 py-2">
+    <i class="pi pi-calendar text-[#1170b8] text-sm"></i>
+    <app-month-picker [months]="months" [selected]="month()" (selectedChange)="onMonthChanged($event)" />
+    <span class="text-[#1170b8]/40">/</span>
+    <input
+      type="number"
+      class="w-16 bg-transparent text-sm font-medium text-neutral-800 focus:outline-none"
+      [ngModel]="year()"
+      (ngModelChange)="onYearChanged($event)"
+    />
+  </div>
+
+  @if (selectedRegionId() && branches().length > 0) {
+    <div class="h-6 w-px bg-neutral-200"></div>
+
+    <div class="flex flex-wrap items-center gap-2.5">
+      <span class="text-[11px] font-semibold uppercase tracking-wide text-neutral-400">Sucursal</span>
+      @for (branch of branches(); track branch.branchId) {
+        <button
+          type="button"
+          (click)="onBranchSelected(branch.name)"
+          class="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors cursor-pointer"
+          [class.bg-[#0b1f45]]="selectedBranchId() === branch.branchId"
+          [class.text-white]="selectedBranchId() === branch.branchId"
+          [class.bg-neutral-50]="selectedBranchId() !== branch.branchId"
+          [class.text-neutral-600]="selectedBranchId() !== branch.branchId"
+          [class.hover:bg-neutral-100]="selectedBranchId() !== branch.branchId"
+        >
+          <i class="pi pi-building text-[11px]"></i>
+          {{ branch.name }}
+        </button>
+      }
+
+      <div class="h-5 w-px bg-neutral-200"></div>
+
+      <button
+        type="button"
+        (click)="onTotalSelected()"
+        class="flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors cursor-pointer"
+        [class.bg-[#0b1f45]]="isTotalSelected()"
+        [class.text-white]="isTotalSelected()"
+        [class.bg-neutral-50]="!isTotalSelected()"
+        [class.text-neutral-600]="!isTotalSelected()"
+        [class.hover:bg-neutral-100]="!isTotalSelected()"
+      >
+        <i class="pi pi-chart-bar text-[11px]"></i>
+        Total {{ selectedRegionName() }}
+      </button>
+    </div>
+  }
+
+  <div class="ml-auto flex items-center gap-2 text-xs font-semibold">
+    @if (saving()) {
+      <span class="flex items-center gap-1.5 text-neutral-400">
+        <i class="pi pi-spin pi-spinner"></i>
+        Guardando...
+      </span>
+    } @else if (justSaved()) {
+      <span class="flex items-center gap-1.5 text-[#2e8b3d]">
+        <i class="pi pi-check-circle"></i>
+        Guardado en el servidor
+      </span>
+    }
+  </div>
+</div>
+
+@if (saveError(); as error) {
+  <div class="mb-6 flex items-center gap-2.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">
+    <i class="pi pi-exclamation-triangle"></i>
+    {{ error }}
+  </div>
+}
+
+@if (!selectedRegionId()) {
+  <app-empty-state icon="pi-map-marker" title="Selecciona una región para comenzar" />
+} @else if (branches().length === 0) {
+  <app-empty-state
+    icon="pi-building"
+    title="Esta región no tiene sucursales registradas todavía"
+    description="Agrégalas desde Catálogo → Sucursales."
+  />
+} @else if (loadingBranchData()) {
+  <app-table-skeleton [rows]="6" [cols]="8" />
+} @else if (currentSite(); as site) {
+  <app-site-table
+    [site]="site"
+    [readonlyMode]="isTotalSelected()"
+    (dsaSopEdited)="onDsaSopEdited($event)"
+    (weekMetaEdited)="onWeekMetaEdited($event)"
+  />
+}

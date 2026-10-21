@@ -1,0 +1,90 @@
+<app-page-header
+  title="Objetivos de Ventas"
+  icon="pi-upload"
+  [crumbs]="['Objetivos de Ventas']"
+/>
+
+<div class="mx-auto w-full max-w-5xl flex flex-col gap-8">
+  <section class="rounded-2xl border border-neutral-200 bg-white shadow-sm p-6 lg:p-8 flex flex-col gap-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0b1f45]">
+          <i class="pi pi-upload text-white text-[15px]"></i>
+        </span>
+        <h2 class="text-lg font-semibold text-neutral-900">Carga de Objetivos</h2>
+      </div>
+
+      <div class="flex items-center gap-2.5 rounded-lg border border-[#1170b8]/20 bg-[#eef3fc] pl-3.5 pr-2.5 py-2">
+        <i class="pi pi-calendar text-[#1170b8] text-sm"></i>
+        <app-month-picker [months]="months" [selected]="month()" (selectedChange)="month.set($event); onPeriodChange()" />
+        <span class="text-[#1170b8]/40">/</span>
+        <input
+          type="number"
+          class="w-16 bg-transparent text-sm font-medium text-neutral-800 focus:outline-none"
+          [ngModel]="year()"
+          (ngModelChange)="year.set($event); onPeriodChange()"
+        />
+      </div>
+    </div>
+
+    @if (!pendingGrid()) {
+      <app-excel-dropzone
+        [loading]="loading()"
+        [fileName]="null"
+        (fileSelected)="onFileSelected($event)"
+        (cleared)="onDiscard()"
+      />
+    }
+
+    @if (error()) {
+      <div class="rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">
+        {{ error() }}
+      </div>
+    }
+
+    @if (importSummary(); as summary) {
+      <div class="flex items-center gap-3 rounded-xl border border-[#2e8b3d]/20 bg-[#eaf7ec] px-4 py-3">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2e8b3d]/15">
+          <i class="pi pi-check text-[13px] text-[#2e8b3d]"></i>
+        </span>
+        <div>
+          <p class="text-sm font-semibold text-[#1f5c2a]">¡Datos guardados correctamente!</p>
+          <p class="text-xs text-[#2e8b3d]">{{ summary.rowsImported }} valores actualizados para el periodo seleccionado.</p>
+        </div>
+      </div>
+    }
+
+    @if (pendingGrid(); as grid) {
+      <div class="rounded-xl border border-[#1170b8]/30 bg-[#eef3fc] px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <i class="pi pi-file-excel text-lg text-[#4caf50]"></i>
+          <p class="text-sm font-semibold text-neutral-800">{{ grid.fileName }}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            (click)="onDiscard()"
+            class="rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] px-3.5 py-2 text-sm font-medium text-white transition-colors"
+          >
+            Descartar
+          </button>
+          <button
+            type="button"
+            [disabled]="saving()"
+            (click)="onConfirm()"
+            class="rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 px-3.5 py-2 text-sm font-medium text-white transition-colors"
+          >
+            {{ saving() ? 'Guardando...' : 'Guardar' }}
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+
+  <section class="rounded-2xl border border-neutral-200 bg-white shadow-sm p-6 lg:p-8">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+      {{ pendingGrid() ? 'Vista Previa' : 'Objetivos Guardados' }}
+    </h2>
+    <app-sales-target-table [grid]="displayedGrid()" />
+  </section>
+</div>

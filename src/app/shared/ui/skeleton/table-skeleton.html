@@ -1,0 +1,14 @@
+<div class="overflow-hidden rounded-xl border border-neutral-200">
+  <div class="flex items-center gap-4 border-b border-neutral-200 bg-neutral-50 px-4 py-3">
+    @for (col of colIndexes(); track $index) {
+      <app-skeleton class="h-3 flex-1 bg-neutral-300/70" />
+    }
+  </div>
+  @for (row of rowIndexes(); track $index) {
+    <div class="flex items-center gap-4 border-b border-neutral-100 px-4 py-3.5 last:border-b-0">
+      @for (col of colIndexes(); track $index) {
+        <app-skeleton class="h-3.5 flex-1" />
+      }
+    </div>
+  }
+</div>

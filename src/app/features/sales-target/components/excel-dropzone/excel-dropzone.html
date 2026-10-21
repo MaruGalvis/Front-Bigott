@@ -1,0 +1,74 @@
+<div
+  class="group relative rounded-2xl border-2 border-dashed px-8 py-14 text-center transition-all duration-200"
+  [class.border-neutral-300]="!isDragging()"
+  [class.bg-neutral-50]="!isDragging()"
+  [class.border-[#1170b8]]="isDragging()"
+  [class.bg-[#eef3fc]]="isDragging()"
+  [class.scale-[1.01]]="isDragging()"
+  [class.shadow-[0_0_0_4px_rgba(23,171,226,0.16)]]="isDragging()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+>
+  <input
+    #fileInput
+    type="file"
+    accept=".xlsx,.xls,.csv"
+    class="hidden"
+    (change)="onFileInput($event)"
+  />
+
+  @if (loading()) {
+    <div class="flex flex-col items-center gap-4">
+      <div class="h-16 w-16 rounded-full bg-[#0b1f45] flex items-center justify-center">
+        <i class="pi pi-spin pi-spinner text-2xl text-white"></i>
+      </div>
+      <p class="text-[15px] font-medium text-neutral-600">Procesando archivo…</p>
+    </div>
+  } @else if (fileName()) {
+    <div class="flex flex-col items-center gap-4">
+      <div class="h-16 w-16 rounded-full bg-[#eaf7ec] flex items-center justify-center">
+        <i class="pi pi-file-excel text-3xl text-[#2e8b3d]"></i>
+      </div>
+      <p class="text-[15px] font-semibold text-neutral-800">{{ fileName() }}</p>
+      <div class="flex items-center gap-4 text-sm">
+        <button type="button" (click)="fileInput.click()" class="text-[#1170b8] font-medium hover:underline cursor-pointer">
+          Cambiar Archivo
+        </button>
+        <button type="button" (click)="cleared.emit()" class="text-neutral-400 font-medium hover:text-red-600 cursor-pointer">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="flex flex-col items-center gap-5">
+      <div
+        class="h-16 w-16 rounded-full bg-linear-to-br from-[#0b1f45] to-[#1170b8] flex items-center justify-center transition-transform duration-200 group-hover:scale-105"
+        [class.scale-105]="isDragging()"
+      >
+        <i class="pi pi-cloud-upload text-2xl text-white"></i>
+      </div>
+
+      <div class="flex flex-col items-center gap-1.5">
+        <p class="text-lg font-semibold text-neutral-800">Arrastra el archivo aquí</p>
+        <p class="text-sm text-neutral-500">o explora tus archivos</p>
+      </div>
+
+      <button
+        type="button"
+        (click)="fileInput.click()"
+        class="rounded-lg bg-[#0b1f45] hover:bg-[#0d3b78] px-5 py-2.5 text-sm font-semibold text-white transition-colors cursor-pointer"
+      >
+        Seleccionar Archivo
+      </button>
+
+      <div class="flex items-center gap-2 pt-1">
+        @for (ext of ['.xlsx', '.xls', '.csv']; track ext) {
+          <span class="rounded-full border border-[#1170b8]/25 bg-[#eef3fc] px-2.5 py-1 text-[11px] font-semibold text-[#1170b8]">
+            {{ ext }}
+          </span>
+        }
+      </div>
+    </div>
+  }
+</div>

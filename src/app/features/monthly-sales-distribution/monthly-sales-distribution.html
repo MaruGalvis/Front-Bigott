@@ -1,0 +1,71 @@
+<app-page-header
+  title="Distribución Mensual"
+  icon="pi-calendar"
+  [crumbs]="['Distribución Mensual']"
+/>
+
+<div class="mb-6 flex flex-wrap items-center gap-4 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+  <app-region-picker
+    [regions]="regionNames()"
+    [selected]="selectedRegionName()"
+    placeholder="Selecciona una región"
+    icon="pi-map-marker"
+    (selectedChange)="onRegionSelected($event)"
+  />
+
+  <div class="h-6 w-px bg-neutral-200"></div>
+
+  <div class="flex items-center gap-2.5 rounded-lg border border-[#1170b8]/20 bg-[#eef3fc] pl-3.5 pr-2.5 py-2">
+    <i class="pi pi-calendar text-[#1170b8] text-sm"></i>
+    <app-month-picker [months]="months" [selected]="month()" (selectedChange)="onMonthChanged($event)" />
+    <span class="text-[#1170b8]/40">/</span>
+    <input
+      type="number"
+      class="w-16 bg-transparent text-sm font-medium text-neutral-800 focus:outline-none"
+      [ngModel]="year()"
+      (ngModelChange)="onYearChanged($event)"
+    />
+  </div>
+
+  <div class="ml-auto flex items-center gap-2 text-xs font-semibold">
+    @if (saving()) {
+      <span class="flex items-center gap-1.5 text-neutral-400">
+        <i class="pi pi-spin pi-spinner"></i>
+        Guardando...
+      </span>
+    } @else if (justSaved()) {
+      <span class="flex items-center gap-1.5 text-[#2e8b3d]">
+        <i class="pi pi-check-circle"></i>
+        Guardado en el servidor
+      </span>
+    }
+  </div>
+</div>
+
+@if (saveError(); as error) {
+  <div class="mb-6 flex items-center gap-2.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">
+    <i class="pi pi-exclamation-triangle"></i>
+    {{ error }}
+  </div>
+}
+
+@if (!selectedRegionId()) {
+  <app-empty-state icon="pi-map-marker" title="Selecciona una región para comenzar" />
+} @else if (loading()) {
+  <app-table-skeleton [rows]="7" [cols]="9" />
+} @else if (branchTables().length === 0) {
+  <app-empty-state
+    icon="pi-building"
+    title="Esta región no tiene sucursales registradas todavía"
+    description="Agrégalas desde Catálogo → Sucursales."
+  />
+} @else {
+  <div class="flex flex-col gap-6">
+    @if (regionTotalTable(); as totalTable) {
+      <app-month-branch-table [table]="totalTable" [readonlyMode]="true" [isTotalRow]="true" />
+    }
+    @for (table of branchTables(); track table.branchId) {
+      <app-month-branch-table [table]="table" (dailyWeightEdited)="onDailyWeightEdited($event)" />
+    }
+  </div>
+}

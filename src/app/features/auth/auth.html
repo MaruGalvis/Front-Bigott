@@ -1,0 +1,251 @@
+<!--
+THESIS: A corporate portal login built as a literal reconstruction of bat.com's own hero carousel,
+not an interpretation of it — sharp-edged teaser card, brand color strip, verbatim copy.
+OWN-WORLD: Neutrals (white/neutral-900/neutral-500) on the form side; BAT navy #0b1f45 and the
+brand-blue teaser card #0d3b78 on the carousel side. Sharp corners throughout, no border-radius on
+the copy card (brief-pinned to bat.com's own square teaser), bordered inputs, solid navy CTA, no blur.
+STORY: An employee recognizes the institution through five real BAT scenes, BAT's own verbatim
+hero headlines/captions, and the brand color strip, then finds the two tasks (log in / sign up)
+without decoration in the way.
+FIRST VIEWPORT: Left, full-bleed crossfading photograph carousel with a vertically centered,
+sharp-edged teaser card (bat.com's own headline/caption, brand strip fused to its bottom edge) and
+story-style progress bars beneath it. Right, a plain white panel with the wordmark, the segmented
+tabs, and the form directly beneath.
+FORM: Editorial split-screen, literal refinement of the existing incumbent surface (brief-pinned
+pixel-for-pixel to bat.com's real hero carousel).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the
+verdict, and DESIGN.md.
+-->
+<div class="min-h-screen grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] bg-white font-['Poppins']">
+  <!-- Editorial carousel panel -->
+  <div class="relative hidden lg:flex flex-col overflow-hidden bg-[#0b1f45]">
+    @for (slide of slides; track slide.src; let i = $index) {
+      <img
+        [src]="slide.src"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1400 ease-out"
+        [class.opacity-80]="activeSlide() === i"
+        [class.opacity-0]="activeSlide() !== i"
+        [class.animate-[kenburns_7.4s_ease-out]]="activeSlide() === i"
+      />
+    }
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0b1f45]/75 via-[#0b1f45]/45 to-[#050f26]/85"></div>
+
+    <img src="/images/bat-logo-black.svg" alt="British American Tobacco" class="absolute z-20 top-10 left-14 h-16 w-auto invert" />
+
+    <div class="relative z-10 flex-1 flex items-center px-14">
+      @for (slide of slides; track slide.src; let i = $index) {
+        @if (activeSlide() === i) {
+          <div class="max-w-2xl">
+            <h1 class="text-[42px] leading-[1.15] font-bold text-white mb-5 drop-shadow-[0_2px_16px_rgba(0,0,0,0.45)]">{{ slide.headline }}</h1>
+            <p class="text-lg leading-relaxed text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">{{ slide.caption }}</p>
+          </div>
+        }
+      }
+    </div>
+
+    <div class="relative z-10">
+      <div class="flex gap-1.5 px-14 py-6">
+        @for (slide of slides; track slide.src; let i = $index) {
+          <button
+            type="button"
+            class="h-0.75 flex-1 rounded-full bg-white/25 overflow-hidden cursor-pointer"
+            (click)="goToSlide(i)"
+            [attr.aria-label]="'Ver ' + slide.headline"
+          >
+            <span
+              class="block h-full bg-white origin-left"
+              [class.w-full]="activeSlide() > i"
+              [class.w-0]="activeSlide() < i"
+              [class.animate-[fillbar_7s_linear]]="activeSlide() === i"
+            ></span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="relative flex flex-col justify-start lg:justify-center px-6 pt-14 pb-10 sm:px-12 md:px-20 lg:px-16 lg:py-16 xl:px-24 bg-[#eef3fc]">
+    <div class="w-full max-w-sm mx-auto">
+      <img src="/images/logo-bat.png" alt="Cigarrera Bigott" class="h-9 w-auto mb-12" />
+
+      <!-- Tabs -->
+      <div class="relative flex rounded-full bg-[#dde6f8] p-1 mb-10">
+        <span
+          class="absolute inset-y-1 w-[calc(50%-4px)] rounded-full bg-[#0b1f45] transition-transform duration-300 ease-out"
+          [class.translate-x-0]="activeTab() === 'login'"
+          [class.translate-x-full]="activeTab() === 'register'"
+        ></span>
+        <button
+          type="button"
+          class="relative z-10 flex-1 rounded-full py-2.5 text-sm font-semibold transition-colors duration-300"
+          [class.text-white]="activeTab() === 'login'"
+          [class.text-neutral-500]="activeTab() !== 'login'"
+          (click)="setTab('login')"
+        >
+          Iniciar sesión
+        </button>
+        <button
+          type="button"
+          class="relative z-10 flex-1 rounded-full py-2.5 text-sm font-semibold transition-colors duration-300"
+          [class.text-white]="activeTab() === 'register'"
+          [class.text-neutral-500]="activeTab() !== 'register'"
+          (click)="setTab('register')"
+        >
+          Registrarse
+        </button>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="mb-6 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <!-- Login -->
+      @if (activeTab() === 'login') {
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="flex flex-col gap-5">
+          <div class="flex flex-col gap-1.5">
+            <label for="login-email" class="text-sm font-medium text-neutral-700">Correo Electrónico</label>
+            <input
+              id="login-email"
+              type="email"
+              formControlName="email"
+              placeholder="Correo Electrónico"
+              class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45]/15 focus:border-[#0b1f45] transition-colors"
+            />
+            @if (loginForm.controls.email.invalid && loginForm.controls.email.touched) {
+              <small class="text-red-600">Ingresa un correo electrónico válido</small>
+            }
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="login-password" class="text-sm font-medium text-neutral-700">Contraseña</label>
+            <div class="relative">
+              <input
+                id="login-password"
+                [type]="showLoginPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="••••••••"
+                class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 pr-11 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45]/15 focus:border-[#0b1f45] transition-colors"
+              />
+              <button
+                type="button"
+                class="absolute inset-y-0 right-0 flex items-center px-3.5 text-neutral-400 hover:text-neutral-700"
+                (click)="showLoginPassword.set(!showLoginPassword())"
+                [attr.aria-label]="showLoginPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                <i class="pi text-[15px]" [class.pi-eye]="!showLoginPassword()" [class.pi-eye-slash]="showLoginPassword()"></i>
+              </button>
+            </div>
+            @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
+              <small class="text-red-600">La contraseña es obligatoria</small>
+            }
+          </div>
+
+          <label class="flex items-center gap-2.5 cursor-pointer select-none">
+            <input id="remember" type="checkbox" formControlName="remember" class="h-4 w-4 rounded border-neutral-300 text-[#0b1f45] focus:ring-[#0b1f45]/30" />
+            <span class="text-sm text-neutral-600">Mantener sesión iniciada</span>
+          </label>
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="w-full flex items-center justify-center gap-2 rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 text-white font-medium py-3 text-[15px] transition-colors mt-2"
+          >
+            {{ loading() ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+            @if (!loading()) {
+              <i class="pi pi-arrow-right text-[13px]"></i>
+            }
+          </button>
+        </form>
+      }
+
+      <!-- Register -->
+      @if (activeTab() === 'register') {
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="flex flex-col gap-5">
+          <div class="flex flex-col gap-1.5">
+            <label for="register-name" class="text-sm font-medium text-neutral-700">Nombre y Apellido</label>
+            <input
+              id="register-name"
+              type="text"
+              formControlName="name"
+              placeholder="Nombre y Apellido"
+              class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45]/15 focus:border-[#0b1f45] transition-colors"
+            />
+            @if (registerForm.controls.name.invalid && registerForm.controls.name.touched) {
+              <small class="text-red-600">El nombre es obligatorio</small>
+            }
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="register-email" class="text-sm font-medium text-neutral-700">Correo Electrónico</label>
+            <input
+              id="register-email"
+              type="email"
+              formControlName="email"
+              placeholder="Correo Electrónico"
+              class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45]/15 focus:border-[#0b1f45] transition-colors"
+            />
+            @if (registerForm.controls.email.invalid && registerForm.controls.email.touched) {
+              <small class="text-red-600">Ingresa un correo electrónico válido</small>
+            }
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="register-password" class="text-sm font-medium text-neutral-700">Contraseña</label>
+            <div class="relative">
+              <input
+                id="register-password"
+                [type]="showRegisterPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="••••••••"
+                class="w-full rounded-md border border-neutral-300 px-3.5 py-2.5 pr-11 text-[15px] text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0b1f45]/15 focus:border-[#0b1f45] transition-colors"
+              />
+              <button
+                type="button"
+                class="absolute inset-y-0 right-0 flex items-center px-3.5 text-neutral-400 hover:text-neutral-700"
+                (click)="showRegisterPassword.set(!showRegisterPassword())"
+                [attr.aria-label]="showRegisterPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                <i class="pi text-[15px]" [class.pi-eye]="!showRegisterPassword()" [class.pi-eye-slash]="showRegisterPassword()"></i>
+              </button>
+            </div>
+            @if (registerForm.controls.password.invalid && registerForm.controls.password.touched) {
+              <small class="text-red-600">Mínimo 8 caracteres, con mayúscula, minúscula y un número</small>
+            }
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="w-full flex items-center justify-center gap-2 rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 text-white font-medium py-3 text-[15px] transition-colors mt-2"
+          >
+            {{ loading() ? 'Creando cuenta...' : 'Registrarse' }}
+            @if (!loading()) {
+              <i class="pi pi-arrow-right text-[13px]"></i>
+            }
+          </button>
+        </form>
+      }
+
+      <p class="mt-10 text-[13px] text-neutral-400">
+        © {{ currentYear }} British American Tobacco p.l.c. Todos los derechos reservados.
+      </p>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 flex h-3.5">
+      <span class="flex-3 bg-[#0b1f45]"></span>
+      <span class="flex-2 bg-[#0d3b78]"></span>
+      <span class="flex-2 bg-[#1170b8]"></span>
+      <span class="flex-2 bg-[#17abe2]"></span>
+      <span class="flex-1 bg-[#f4791e]"></span>
+      <span class="flex-1 bg-[#fdb714]"></span>
+      <span class="flex-1 bg-[#4caf50]"></span>
+      <span class="flex-1 bg-[#9acd32]"></span>
+      <span class="flex-1 bg-[#6b3fa0]"></span>
+      <span class="flex-1 bg-[#e6007e]"></span>
+    </div>
+  </div>
+</div>

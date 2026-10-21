@@ -1,0 +1,55 @@
+<app-page-header
+  title="Reporte Mensual"
+  icon="pi-file-excel"
+  [crumbs]="['Reporte Mensual']"
+/>
+
+<div class="mb-6 flex flex-wrap items-center gap-4 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+  <div class="flex items-center gap-2.5 rounded-lg border border-[#1170b8]/20 bg-[#eef3fc] pl-3.5 pr-2.5 py-2">
+    <i class="pi pi-calendar text-[#1170b8] text-sm"></i>
+    <app-month-picker [months]="months" [selected]="month()" (selectedChange)="onMonthChanged($event)" />
+    <span class="text-[#1170b8]/40">/</span>
+    <input
+      type="number"
+      class="w-16 bg-transparent text-sm font-medium text-neutral-800 focus:outline-none"
+      [value]="year()"
+      (change)="onYearChanged($any($event.target).valueAsNumber)"
+    />
+  </div>
+
+  <button
+    type="button"
+    (click)="exportToExcel()"
+    [disabled]="loading() || exporting() || regionReports().length === 0"
+    class="ml-auto flex items-center gap-2 rounded-lg bg-[#0b1f45] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0b1f45]/90 disabled:cursor-not-allowed disabled:opacity-40"
+  >
+    <i class="pi" [class.pi-file-excel]="!exporting()" [class.pi-spin]="exporting()" [class.pi-spinner]="exporting()"></i>
+    {{ exporting() ? 'Generando...' : 'Exportar a Excel' }}
+  </button>
+</div>
+
+@if (loading()) {
+  <app-table-skeleton [rows]="7" [cols]="9" />
+} @else if (regionReports().length === 0) {
+  <app-empty-state
+    icon="pi-map-marker"
+    title="Todavía no hay regiones con datos de distribución"
+    description="Agrégalas desde Catálogo y carga su Distribución Semanal/Mensual."
+  />
+} @else {
+  <div class="flex flex-col gap-8">
+    @for (region of regionReports(); track region.regionId) {
+      <div class="flex flex-col gap-4">
+        <h2 class="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-neutral-500">
+          <i class="pi pi-map-marker text-[#1170b8]"></i>
+          {{ region.regionName }}
+        </h2>
+        <div class="flex flex-col gap-6">
+          @for (table of region.branchTables; track table.branchId) {
+            <app-month-branch-table [table]="table" [readonlyMode]="true" />
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,58 @@
+@if (request(); as req) {
+  <div class="fixed inset-0 z-[110] flex items-center justify-center px-4">
+    <button
+      type="button"
+      class="absolute inset-0 bg-[#0b1f45]/50 backdrop-blur-[1px]"
+      aria-label="Cancelar"
+      (click)="cancel()"
+    ></button>
+
+    <div class="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="flex items-start gap-3.5">
+        <span
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+          [class.bg-red-50]="req.destructive"
+          [class.bg-[#eef3fc]]="!req.destructive"
+        >
+          <i
+            class="pi text-[17px]"
+            [class.pi-exclamation-triangle]="req.destructive"
+            [class.text-red-600]="req.destructive"
+            [class.pi-question-circle]="!req.destructive"
+            [class.text-[#1170b8]]="!req.destructive"
+          ></i>
+        </span>
+        <div class="min-w-0 flex-1 pt-0.5">
+          <h3 class="text-base font-semibold text-neutral-900">{{ req.title }}</h3>
+          <p class="mt-1.5 text-sm text-neutral-500">{{ req.message }}</p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end gap-2.5">
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-md px-3.5 py-2 text-sm font-medium transition-colors"
+          [class.text-neutral-600]="req.destructive"
+          [class.hover:bg-neutral-100]="req.destructive"
+          [class.bg-[#0b1f45]]="!req.destructive"
+          [class.hover:bg-[#0d3b78]]="!req.destructive"
+          [class.text-white]="!req.destructive"
+        >
+          {{ req.cancelLabel ?? 'Cancelar' }}
+        </button>
+        <button
+          type="button"
+          (click)="confirm()"
+          class="rounded-md px-3.5 py-2 text-sm font-semibold text-white transition-colors"
+          [class.bg-red-600]="req.destructive"
+          [class.hover:bg-red-700]="req.destructive"
+          [class.bg-[#0b1f45]]="!req.destructive"
+          [class.hover:bg-[#0d3b78]]="!req.destructive"
+        >
+          {{ req.confirmLabel ?? 'Confirmar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

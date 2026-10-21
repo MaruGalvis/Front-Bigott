@@ -1,0 +1,20 @@
+<div class="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center">
+  <span class="flex h-14 w-14 items-center justify-center rounded-full bg-[#eef3fc]">
+    <i class="pi text-2xl text-[#1170b8]/60" [class]="icon()"></i>
+  </span>
+  <div class="max-w-xs">
+    <p class="text-sm font-semibold text-neutral-700">{{ title() }}</p>
+    @if (description()) {
+      <p class="mt-1 text-sm text-neutral-400">{{ description() }}</p>
+    }
+  </div>
+  @if (actionLabel()) {
+    <button
+      type="button"
+      (click)="action.emit()"
+      class="mt-1.5 rounded-md bg-[#0b1f45] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0d3b78]"
+    >
+      {{ actionLabel() }}
+    </button>
+  }
+</div>

@@ -1,0 +1,60 @@
+X [ERROR] TS2341: Property 'formatPeriod' is private and only accessible within class 'MlForecast'. [plugin angular-compiler]
+
+    src/app/features/ml-forecast/ml-forecast.html:49:81:
+      49 │ ...xt-neutral-800">Periodo generado: {{ formatPeriod(r.period) }}</p>
+         ╵                                         ~~~~~~~~~~~~
+
+  Error occurs in the template of component MlForecast.
+
+    src/app/features/ml-forecast/ml-forecast.ts:15:15:
+      15 │   templateUrl: './ml-forecast.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~
+
+
+8:48:27 p. m. [vite] (client) [console.warn] NG0955: The provided track expression resulted in duplicated keys for a given collection. Adjust the tracking expression such that it uniquely identifies all the items in the collection. Duplicated keys were: 
+key "" at index "0" and "1", 
+key "" at index "1" and "2", 
+key "" at index "2" and "3", 
+key "" at index "3" and "4", 
+key "" at index "4" and "5", 
+key "" at index "5" and "6", 
+key "" at index "6" and "7", 
+key "" at index "7" and "8", 
+key "" at index "8" and "9", 
+key "" at index "9" and "10", 
+key "" at index "10" and "12", 
+key "" at index "12" and "13", 
+key "" at index "13" and "14", 
+key "" at index "14" and "15", 
+key "" at index "15" and "16", 
+key "" at index "16" and "17", 
+key "" at index "17" and "18", 
+key "" at index "18" and "19", 
+key "" at index "19" and "20", 
+key "" at index "20" and "21", 
+key "" at index "21" and "22", 
+key "" at index "22" and "23", 
+key "" at index "23" and "24", 
+key "" at index "24" and "25", 
+key "" at index "25" and "26", 
+key "" at index "26" and "27", 
+key "" at index "27" and "28", 
+key "" at index "28" and "29", 
+key "" at index "29" and "30", 
+key "" at index "30" and "31", 
+key "" at index "31" and "32", 
+key "" at index "32" and "33", 
+key "" at index "33" and "34", 
+key "" at index "34" and "35", 
+key "" at index "35" and "36", 
+key "" at index "36" and "37", 
+key "" at index "37" and "38", 
+key "" at index "38" and "39", 
+key "" at index "39" and "40", 
+key "" at index "40" and "41", 
+key "" at index "41" and "42", 
+key "" at index "42" and "43", 
+key "" at index "43" and "44", 
+key "" at index "44" and "45", 
+key "" at index "45" and "46", 
+key "" at index "46" and "47". Find more at https://v22.angular.dev/errors/NG0955

@@ -1,0 +1,90 @@
+<app-page-header
+  title="Proyección de Objetivos"
+  icon="pi-sparkles"
+  [crumbs]="['Proyección de Objetivos']"
+/>
+
+<div class="mx-auto w-full max-w-5xl flex flex-col gap-8">
+  <section class="rounded-2xl border border-neutral-200 bg-white shadow-sm p-6 lg:p-8 flex flex-col gap-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0b1f45]">
+          <i class="pi pi-sparkles text-white text-[15px]"></i>
+        </span>
+        <h2 class="text-lg font-semibold text-neutral-900">Objetivos Generados - Machine Learning</h2>
+      </div>
+
+      @if (!response()) {
+        <button
+          type="button"
+          [disabled]="generating()"
+          (click)="onGenerate()"
+          class="rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 px-4 py-2.5 text-sm font-medium text-white transition-colors flex items-center gap-2"
+        >
+          <i class="pi" [class]="generating() ? 'pi-spin pi-spinner' : 'pi-sparkles'"></i>
+          {{ generating() ? 'Generando...' : 'Generar objetivos' }}
+        </button>
+      }
+    </div>
+
+    @if (error()) {
+      <div class="rounded-md bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3">
+        {{ error() }}
+      </div>
+    }
+
+    @if (saved()) {
+      <div class="flex items-center gap-3 rounded-xl border border-[#2e8b3d]/20 bg-[#eaf7ec] px-4 py-3">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2e8b3d]/15">
+          <i class="pi pi-check text-[13px] text-[#2e8b3d]"></i>
+        </span>
+        <p class="text-sm font-semibold text-[#1f5c2a]">¡Objetivos guardados correctamente!</p>
+      </div>
+    }
+
+    @if (response(); as r) {
+      <div class="rounded-xl border border-[#1170b8]/30 bg-[#eef3fc] px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <i class="pi pi-calendar text-lg text-[#1170b8]"></i>
+          <p class="text-sm font-semibold text-neutral-800">Mes: {{ formatPeriod(r.period) }}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            (click)="onDiscard()"
+            class="rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] px-3.5 py-2 text-sm font-medium text-white transition-colors"
+          >
+            Descartar
+          </button>
+          @if (!saved()) {
+            <button
+              type="button"
+              [disabled]="saving()"
+              (click)="onSave()"
+              class="rounded-md bg-[#0b1f45] hover:bg-[#0d3b78] disabled:opacity-50 px-3.5 py-2 text-sm font-medium text-white transition-colors"
+            >
+              {{ saving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </section>
+
+  <section class="rounded-2xl border border-neutral-200 bg-white shadow-sm p-6 lg:p-8">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">Predicción del modelo</h2>
+
+    @if (generating()) {
+      <app-table-skeleton [rows]="10" [cols]="5" />
+    } @else if (grid()) {
+      <app-sales-target-table [grid]="grid()" />
+    } @else {
+      <div class="rounded-xl border border-dashed border-neutral-300">
+        <app-empty-state
+          icon="pi-sparkles"
+          title="Presiona “Generar objetivos” para estimar los objetivos del próximo mes."
+        />
+      </div>
+    }
+  </section>
+</div>

@@ -1,0 +1,60 @@
+<app-page-header
+  title="Catálogo"
+  subtitle="Crea y administra productos, regiones y sucursales"
+  icon="pi-sitemap"
+  [crumbs]="['Catálogo']"
+/>
+
+<div class="mx-auto w-full max-w-6xl flex flex-col gap-6">
+  <div class="relative flex rounded-2xl border border-neutral-200 bg-white p-1.5 shadow-sm">
+    <span
+      class="absolute inset-y-1.5 left-1.5 w-[calc(33.333%-4px)] rounded-xl bg-[#0b1f45] shadow-[0_4px_14px_rgba(11,31,69,0.28)] transition-transform duration-300 ease-out"
+      [class.translate-x-0]="activeTab() === 'product'"
+      [class.translate-x-[100%]]="activeTab() === 'region'"
+      [class.translate-x-[200%]]="activeTab() === 'branch'"
+    ></span>
+
+    <button
+      type="button"
+      (click)="setTab('product')"
+      class="relative z-10 flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer"
+      [class.text-white]="activeTab() === 'product'"
+      [class.text-neutral-500]="activeTab() !== 'product'"
+    >
+      <i class="pi pi-box text-[15px]"></i>
+      Producto
+    </button>
+    <button
+      type="button"
+      (click)="setTab('region')"
+      class="relative z-10 flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer"
+      [class.text-white]="activeTab() === 'region'"
+      [class.text-neutral-500]="activeTab() !== 'region'"
+    >
+      <i class="pi pi-map-marker text-[15px]"></i>
+      Región
+    </button>
+    <button
+      type="button"
+      (click)="setTab('branch')"
+      class="relative z-10 flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer"
+      [class.text-white]="activeTab() === 'branch'"
+      [class.text-neutral-500]="activeTab() !== 'branch'"
+    >
+      <i class="pi pi-building text-[15px]"></i>
+      Sucursal
+    </button>
+  </div>
+
+  @switch (activeTab()) {
+    @case ('product') {
+      <app-product-panel />
+    }
+    @case ('region') {
+      <app-region-panel />
+    }
+    @case ('branch') {
+      <app-branch-panel />
+    }
+  }
+</div>

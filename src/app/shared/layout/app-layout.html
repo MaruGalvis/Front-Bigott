@@ -1,0 +1,82 @@
+<!--
+THESIS: A fixed navy sidebar is the institution's permanent address — always visible, never competing
+with the dense tables it leads to. The two real tasks (Sales Target, Weekly Sales Distribution) sit
+as unmissable anchors, not buried in a dropdown.
+OWN-WORLD: BAT navy #0b1f45 sidebar, white content surface, single blue accent (#1170b8/#17abe2) for
+the active nav state. Sharp-to-near-sharp corners, no gradients, no decorative icons.
+STORY: A user opens the app and lands straight on the task that matters (Sales Target), always
+sees where they are via the sidebar's active state, and on mobile reaches the same two destinations
+through a slide-in panel behind one tap.
+FIRST VIEWPORT: Fixed 260px navy sidebar — wordmark, two real nav items, user chip + sign out at the
+foot. Routed content on a light neutral surface fills the rest of the viewport. Below lg, the sidebar
+hides behind a top bar and a hamburger-triggered overlay.
+FORM: Operate mode — restrained, consistent, task first.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the
+verdict, and DESIGN.md.
+-->
+<div class="min-h-screen flex bg-[#f4f6fb] font-['Poppins']">
+  <!-- Mobile overlay -->
+  @if (mobileNavOpen()) {
+    <button
+      type="button"
+      (click)="mobileNavOpen.set(false)"
+      class="fixed inset-0 z-40 bg-black/40 lg:hidden"
+      aria-label="Cerrar menú"
+    ></button>
+  }
+
+  <!-- Sidebar -->
+  <aside
+    class="fixed inset-y-0 left-0 z-50 w-64 flex flex-col bg-[#0b1f45] transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0"
+    [class.-translate-x-full]="!mobileNavOpen()"
+  >
+    <div class="h-24 flex items-center px-6 border-b border-white/8">
+      <img src="/images/bat-logo-black.svg" alt="British American Tobacco" class="h-12 w-auto invert" />
+    </div>
+
+    <nav class="flex-1 min-h-0 overflow-y-auto px-3.5 pt-7 pb-4">
+      <app-sidebar-nav [items]="navItems" (linkClicked)="mobileNavOpen.set(false)" />
+    </nav>
+
+    <div class="flex items-center gap-3 px-4 py-4 border-t border-white/8">
+      <div
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-[#1170b8] to-[#17abe2] text-[15px] font-semibold text-white ring-2 ring-white/10"
+      >
+        {{ (user()?.name ?? 'U').charAt(0).toUpperCase() }}
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-[14px] font-semibold text-white/90 leading-tight">{{ user()?.name ?? 'Usuario' }}</p>
+        <p class="truncate text-[12px] text-white/40 leading-tight">Sesión activa</p>
+      </div>
+      <button
+        (click)="logout()"
+        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white/45 transition-colors hover:bg-white/5 hover:text-white"
+        title="Cerrar sesión"
+      >
+        <i class="pi pi-sign-out text-base"></i>
+      </button>
+    </div>
+  </aside>
+
+  <div class="flex-1 min-w-0 flex flex-col">
+    <!-- Mobile top bar -->
+    <header class="lg:hidden sticky top-0 z-30 bg-[#0b1f45] h-14 flex items-center gap-3 px-4">
+      <button (click)="mobileNavOpen.set(true)" class="text-white/70 hover:text-white" aria-label="Abrir menú">
+        <i class="pi pi-bars text-lg"></i>
+      </button>
+      <img src="/images/bat-logo-black.svg" alt="British American Tobacco" class="h-10 w-auto invert" />
+    </header>
+
+    <!-- Routed content -->
+    <main class="flex-1 p-4 lg:p-6">
+      <router-outlet />
+    </main>
+
+    <footer class="px-4 lg:px-6 py-4 text-center text-[11px] text-neutral-400">
+      © {{ currentYear }} British American Tobacco p.l.c.
+    </footer>
+  </div>
+</div>
+
+<app-toast-container />
+<app-confirm-dialog />

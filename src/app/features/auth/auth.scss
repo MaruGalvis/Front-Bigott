@@ -1,0 +1,17 @@
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes fillbar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

@@ -1,0 +1,91 @@
+<div class="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
+  <!-- Header -->
+  <div class="flex flex-wrap items-center justify-between gap-4 px-5 py-4 border-b border-neutral-100">
+    <div class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b1f45] text-white">
+        <i class="pi" [class.pi-building]="!isTotalRow()" [class.pi-chart-bar]="isTotalRow()"></i>
+      </span>
+      <div>
+        <h3 class="font-bold text-neutral-900 leading-tight">{{ table().branchName }}</h3>
+      </div>
+    </div>
+
+    <div class="text-right">
+      <p class="text-[11px] font-semibold uppercase tracking-wide text-neutral-400">Total del mes</p>
+      <p class="text-lg font-bold text-[#0b1f45]">{{ table().grandTotal | numberEs }}</p>
+    </div>
+  </div>
+
+  <!-- Detail table -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm min-w-225">
+      <thead>
+        <tr class="bg-[#0b1f45] text-white text-[11px] uppercase tracking-wide">
+          <th scope="col" class="sticky left-0 z-10 bg-[#0b1f45] text-left font-semibold px-4 py-3 whitespace-nowrap border-b border-neutral-200 w-24">Fecha</th>
+          <th scope="col" class="sticky left-24 z-10 bg-[#0b1f45] text-left font-semibold px-3 py-3 whitespace-nowrap border-b border-neutral-200 w-24">Día</th>
+          @for (row of table().brandRows; track row.productId) {
+            <th scope="col" class="text-center font-semibold px-3 py-3 whitespace-nowrap border-b border-neutral-200 min-w-24">{{ row.brand }}</th>
+          }
+          <th scope="col" class="text-center font-semibold px-3 py-3 whitespace-nowrap border-b border-neutral-200 w-20 bg-[#0b1f45]">Peso</th>
+          <th scope="col" class="text-right font-semibold px-4 py-3 whitespace-nowrap border-b border-neutral-200 w-28">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (week of table().weeks; track week.label; let wi = $index) {
+          @for (day of week.days; track day.date.getTime()) {
+            <tr class="border-b border-neutral-100 odd:bg-white even:bg-neutral-50/60 hover:bg-[#eef3fc]/40 transition-colors">
+              <td class="sticky left-0 z-10 bg-inherit px-4 py-2 text-neutral-600 whitespace-nowrap">{{ formatDate(day.date) }}</td>
+              <td class="sticky left-24 z-10 bg-inherit px-3 py-2 text-neutral-700 font-medium whitespace-nowrap">{{ dayLabels[day.dayOfWeek] }}</td>
+              @for (row of table().brandRows; track row.productId) {
+                <td class="px-3 py-2 text-center">
+                  @if (row.cells[wi + '-' + day.dayOfWeek].quantity) {
+                    <span class="text-neutral-700">{{ row.cells[wi + '-' + day.dayOfWeek].quantity | numberEs }}</span>
+                  } @else {
+                    <span class="text-neutral-300">–</span>
+                  }
+                </td>
+              }
+              <td class="px-2 py-1.5 text-center bg-[#eef3fc]/60">
+                @if (readonlyMode()) {
+                  <span class="text-xs font-bold text-neutral-400">–</span>
+                } @else {
+                  <input
+                    type="text"
+                    inputmode="decimal"
+                    class="w-14 text-center rounded-md bg-white border border-[#1170b8]/25 px-1 py-1 text-xs font-bold text-[#1170b8] hover:border-[#1170b8]/60 focus:border-[#1170b8] focus:outline-none transition-colors"
+                    [value]="table().dayWeights[wi + '-' + day.dayOfWeek] ? (table().dayWeights[wi + '-' + day.dayOfWeek] * 100 | numberEs) : ''"
+                    placeholder="%"
+                    (change)="onDailyWeightInput(wi, day.dayOfWeek, $any($event.target).value, $any($event.target))"
+                  />
+                }
+              </td>
+              <td class="px-4 py-2 text-right font-semibold text-neutral-900">
+                {{ table().weekTotals[wi + '-' + day.dayOfWeek] ? (table().weekTotals[wi + '-' + day.dayOfWeek] | numberEs) : '–' }}
+              </td>
+            </tr>
+          }
+          <tr class="border-b-2 border-[#0b1f45]/15 bg-[#eef3fc]/70 font-bold text-neutral-900">
+            <td class="sticky left-0 z-10 bg-[#eef3fc] px-4 py-2.5" colspan="2">{{ week.label }}</td>
+            @for (row of table().brandRows; track row.productId) {
+              <td class="px-3 py-2.5 text-center">
+                {{ weekProductSubtotal(row, wi) | numberEs }}
+              </td>
+            }
+            <td class="px-2 py-2.5 text-center text-neutral-300">–</td>
+            <td class="px-4 py-2.5 text-right text-[#0b1f45]">{{ table().weekSubtotals[wi] | numberEs }}</td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr class="border-t-2 border-[#0b1f45]/20 bg-[#0b1f45]/5 font-bold text-neutral-900">
+          <td class="sticky left-0 z-10 bg-[#eef3fc] px-4 py-3" colspan="2">Total SKU</td>
+          @for (row of table().brandRows; track row.productId) {
+            <td class="px-3 py-3 text-center">{{ row.total | numberEs }}</td>
+          }
+          <td class="px-2 py-3 text-center text-neutral-300">–</td>
+          <td class="px-4 py-3 text-right text-[#0b1f45]">{{ table().grandTotal | numberEs }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
